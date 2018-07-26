@@ -45,13 +45,13 @@ public class OfficeController {
     /**
      * Возвращает офис с указанным идентификатором.
      *
-     * @param officeId идентификатор офиса
+     * @param id идентификатор офиса
      * @return офис с указанным идентификатором
      */
     @ApiOperation(value = "Get office by id", nickname = "getOfficeById", httpMethod = "GET")
     @GetMapping("/{id}")
-    public OfficeView getById(@PathVariable Long officeId){
-        return officeService.getById(officeId);
+    public OfficeView getById(@PathVariable Long id){
+        return officeService.getById(id);
     }
 
     /**
