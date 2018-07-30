@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS Organization (
     id       INTEGER PRIMARY KEY AUTO_INCREMENT,
     name     VARCHAR(50) NOT NULL,
-    fullname VARCHAR(50) NOT NULL,
+    fullname VARCHAR(200) NOT NULL,
     inn      VARCHAR(10) NOT NULL,
     kpp      VARCHAR(9) NOT NULL,
     address  VARCHAR(100) NOT NULL,
