@@ -13,7 +13,7 @@ public class OrganizationToSave {
     /**
      * Полное наименование организации
      */
-    public String fullname;
+    public String fullName;
 
     /**
      * Код причины постановки на учет
@@ -38,7 +38,7 @@ public class OrganizationToSave {
     @Override
     public String toString(){
         return "{ name: " + name +
-                "; fullname: \"" + fullname +
+                "; fullName: \"" + fullName +
                 "\"; kpp: \"" + kpp +
                 "\"; address: \"" + address +
                 "\"; phone: \"" + phone +

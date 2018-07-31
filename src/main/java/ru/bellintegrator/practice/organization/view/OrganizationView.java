@@ -15,7 +15,7 @@ public class OrganizationView {
     /**
      * Полное наименование организации
      */
-    public String fullname;
+    public String fullName;
 
     /**
      * ИНН организации
@@ -46,7 +46,7 @@ public class OrganizationView {
     public String toString(){
         return "{ id: " + id +
                 "; name: \"" + name +
-                "\"; fullname: \"" + fullname +
+                "\"; fullName: \"" + fullName +
                 "\"; inn: \"" + inn +
                 "\"; kpp: \"" + kpp +
                 "\"; address: \"" + address +
