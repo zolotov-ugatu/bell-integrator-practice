@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS Organization (
     kpp      VARCHAR(9) NOT NULL,
     address  VARCHAR(100) NOT NULL,
     phone    VARCHAR(20) NOT NULL,
-    isActive BOOLEAN NOT NULL
+    isActive BOOLEAN NOT NULL,
+    version  INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Office (
@@ -15,7 +16,8 @@ CREATE TABLE IF NOT EXISTS Office (
     orgId    INTEGER NOT NULL,
     address  VARCHAR(100) NOT NULL,
     phone    VARCHAR(20) NOT NULL,
-    isActive BOOLEAN NOT NULL
+    isActive BOOLEAN NOT NULL,
+    version  INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS User (
@@ -30,7 +32,8 @@ CREATE TABLE IF NOT EXISTS User (
     docNumber       VARCHAR(20) NOT NULL,
     docDate         DATE NOT NULL,
     citizenshipCode INTEGER NOT NULL,
-    isIdentified    BOOLEAN NOT NULL
+    isIdentified    BOOLEAN NOT NULL,
+    version         INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Doc (
