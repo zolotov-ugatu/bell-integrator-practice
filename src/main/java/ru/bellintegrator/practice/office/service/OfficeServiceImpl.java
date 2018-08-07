@@ -107,7 +107,7 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     private boolean isNameValid(String name){
-        return name.matches("[a-zA-Zа-яА-Я\" -]{1,50}");
+        return name.matches("[a-zA-Zа-яА-Я\" .-]{1,50}");
     }
 
     private boolean isAddressValid(String address){
@@ -142,10 +142,10 @@ public class OfficeServiceImpl implements OfficeService {
         if (view.name == null || !isNameValid(view.name)){
             messageBuilder.append("Field \"name\" is null or invalid. ");
         }
-        if (view.address == null || isAddressValid(view.address)){
+        if (view.address == null || !isAddressValid(view.address)){
             messageBuilder.append("Field \"address\" is null or invalid. ");
         }
-        if (view.phone == null || isPhoneValid(view.phone)){
+        if (view.phone == null || !isPhoneValid(view.phone)){
             messageBuilder.append("Field \"phone\" is null or invalid. ");
         }
         if (view.isActive == null){
@@ -164,10 +164,10 @@ public class OfficeServiceImpl implements OfficeService {
         if (view.orgId == null){
             messageBuilder.append("Field \"orgId\" is null. ");
         }
-        if (view.address == null || isAddressValid(view.address)){
+        if (view.address == null || !isAddressValid(view.address)){
             messageBuilder.append("Field \"address\" is null or invalid. ");
         }
-        if (view.phone == null || isPhoneValid(view.phone)){
+        if (view.phone == null || !isPhoneValid(view.phone)){
             messageBuilder.append("Field \"phone\" is null or invalid. ");
         }
         if (view.isActive == null){
