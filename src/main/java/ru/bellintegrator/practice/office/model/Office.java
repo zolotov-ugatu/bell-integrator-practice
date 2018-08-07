@@ -124,6 +124,9 @@ public class Office {
     }
 
     public Organization getOrganization() {
+        if (organization == null){
+            organization = new Organization();
+        }
         return organization;
     }
 
