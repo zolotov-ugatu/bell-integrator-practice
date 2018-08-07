@@ -39,7 +39,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Organization> criteriaQuery = criteriaBuilder.createQuery(Organization.class);
         Root<Organization> organizationRoot = criteriaQuery.from(Organization.class);
-        Predicate predicate = criteriaBuilder.like(organizationRoot.get("name"), "*" + filter.getName() + "*");
+        Predicate predicate = criteriaBuilder.like(organizationRoot.get("name"), "%" + filter.getName() + "%");
         if (filter.getInn() != null){
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(organizationRoot.get("inn"), filter.getInn()));
         }
