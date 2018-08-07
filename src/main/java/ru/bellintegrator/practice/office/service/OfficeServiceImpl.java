@@ -95,6 +95,7 @@ public class OfficeServiceImpl implements OfficeService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void save(OfficeToSave officeToSave) {
         validateToSaveView(officeToSave);
         Office office = new Office();
