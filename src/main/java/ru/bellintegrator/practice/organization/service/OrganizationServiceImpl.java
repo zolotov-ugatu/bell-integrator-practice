@@ -124,7 +124,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     private boolean isPhoneValid(String phone){
-        return phone.matches("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,20}$");
+        return phone.matches("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$");
     }
 
     private void validateFilter(OrganizationListFilter filter){
