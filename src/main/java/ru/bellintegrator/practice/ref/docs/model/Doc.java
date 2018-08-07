@@ -10,10 +10,16 @@ import javax.persistence.Table;
 public class Doc {
 
     /**
-     * Код документа
+     * Идентификатор
      */
     @Id
-    @Column(name = "code", nullable = false)
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
+    /**
+     * Код документа
+     */
+    @Column(name = "code", unique = true, nullable = false)
     private Integer code;
 
     /**
@@ -30,6 +36,14 @@ public class Doc {
     }
 
     /* Геттеры и сеттеры */
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getCode() {
         return code;

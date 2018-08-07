@@ -16,6 +16,11 @@ public class OrganizationToSave {
     public String fullName;
 
     /**
+     * Идентификационный номер налогоплательщика
+     */
+    public String inn;
+
+    /**
      * Код причины постановки на учет
      */
     public String kpp;

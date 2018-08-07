@@ -77,7 +77,7 @@ public class User {
      * Документ, удостоверяющий личнось работника
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doc_code", nullable = false)
+    @JoinColumn(name = "doc_id", nullable = false)
     private Doc doc;
 
     /**
@@ -97,7 +97,7 @@ public class User {
      * Страна, гражданином которой является работник
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "citizenship_code", nullable = false)
+    @JoinColumn(name = "citizenship_id", nullable = false)
     private Country country;
 
     /**

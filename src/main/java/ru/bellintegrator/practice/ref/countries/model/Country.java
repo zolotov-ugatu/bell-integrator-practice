@@ -10,10 +10,16 @@ import javax.persistence.Table;
 public class Country {
 
     /**
-     * Код страны
+     * Идентификатор
      */
     @Id
-    @Column(name = "code", nullable = false)
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
+    /**
+     * Код страны
+     */
+    @Column(name = "code", unique = true, nullable = false)
     private Integer code;
 
     /**
@@ -30,6 +36,14 @@ public class Country {
     }
 
     /* Геттеры и сеттеры */
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getCode() {
         return code;

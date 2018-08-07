@@ -184,5 +184,6 @@ public class Office {
      */
     public void removeUser(User user){
         getUsers().remove(user);
+        user.setOffice(null);
     }
 }

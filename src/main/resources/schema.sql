@@ -28,21 +28,23 @@ CREATE TABLE IF NOT EXISTS User (
     office_id        INTEGER NOT NULL,
     position         VARCHAR(50) NOT NULL,
     phone            VARCHAR(20) NOT NULL,
-    doc_code         INTEGER NOT NULL,
+    doc_id           INTEGER NOT NULL,
     doc_number       VARCHAR(20) NOT NULL,
     doc_date         DATE NOT NULL,
-    citizenship_code INTEGER NOT NULL,
+    citizenship_id   INTEGER NOT NULL,
     is_identified    BOOLEAN NOT NULL,
     version          INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Doc (
-    code INTEGER PRIMARY KEY,
+    id   INTEGER PRIMARY KEY,
+    code INTEGER UNIQUE,
     name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Country (
-    code INTEGER PRIMARY KEY,
+    id   INTEGER PRIMARY KEY,
+    code INTEGER UNIQUE,
     name VARCHAR(50) NOT NULL
 );
 
@@ -52,11 +54,11 @@ ALTER TABLE Office ADD FOREIGN KEY (org_id) REFERENCES Organization (id);
 CREATE INDEX IX_User_Office_Id ON User (office_id);
 ALTER TABLE User ADD FOREIGN KEY (office_id) REFERENCES Office (id);
 
-CREATE INDEX IX_User_Doc_Code ON User (doc_code);
-ALTER TABLE User ADD FOREIGN KEY (doc_code) REFERENCES Doc (code);
+CREATE INDEX IX_User_Doc_Code ON User (doc_id);
+ALTER TABLE User ADD FOREIGN KEY (doc_id) REFERENCES Doc (id);
 
-CREATE INDEX IX_User_Country_Code ON User (citizenship_code);
-ALTER TABLE User ADD FOREIGN KEY (citizenship_code) REFERENCES Country (code);
+CREATE INDEX IX_User_Country_Code ON User (citizenship_id);
+ALTER TABLE User ADD FOREIGN KEY (citizenship_id) REFERENCES Country (id);
 
 
 /* Schema from old project below */

@@ -211,5 +211,6 @@ public class Organization {
      */
     public void removeOffice(Office office){
         getOffices().remove(office);
+        office.setOrganization(null);
     }
 }
