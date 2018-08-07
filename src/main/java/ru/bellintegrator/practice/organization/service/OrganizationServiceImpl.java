@@ -188,7 +188,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (view.address == null || !isAddressValid(view.address)){
             messageBuilder.append("Field \"address\" is null or invalid. ");
         }
-        if (view.phone == null || !isFullNameValid(view.phone)){
+        if (view.phone == null || !isPhoneValid(view.phone)){
             messageBuilder.append("Field \"phone\" is null or invalid. ");
         }
         if (view.isActive == null){
