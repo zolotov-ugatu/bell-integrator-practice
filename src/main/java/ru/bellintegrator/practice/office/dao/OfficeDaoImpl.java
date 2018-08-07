@@ -40,7 +40,7 @@ public class OfficeDaoImpl implements OfficeDao {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Office> criteriaQuery = criteriaBuilder.createQuery(Office.class);
         Root<Office> officeRoot = criteriaQuery.from(Office.class);
-        Predicate predicate = criteriaBuilder.equal(officeRoot.get("orgId"), filter.getOrganization().getId());
+        Predicate predicate = criteriaBuilder.equal(officeRoot.get("organization").get("id"), filter.getOrganization().getId());
         if (filter.getName() != null){
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(officeRoot.get("name"), filter.getName()));
         }
