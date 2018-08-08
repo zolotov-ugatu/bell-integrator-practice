@@ -78,4 +78,15 @@ public class UserController {
     public void save(@RequestBody UserToSave userToSave){
         userService.save(userToSave);
     }
+
+    /**
+     * Удаляет пользователя с указанным идентификатором
+     *
+     * @param id идентификатор пользователя для удаления
+     */
+    @ApiOperation(value = "Remove an user", nickname = "removeUser", httpMethod = "POST")
+    @PostMapping("/remove/{id}")
+    public void remove(@PathVariable Long id){
+        userService.remove(id);
+    }
 }

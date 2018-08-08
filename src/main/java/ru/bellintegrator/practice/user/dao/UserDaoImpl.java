@@ -107,4 +107,12 @@ public class UserDaoImpl implements UserDao {
     public void save(User user) {
         em.persist(user);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void remove(Long id){
+        em.remove(getById(id));
+    }
 }

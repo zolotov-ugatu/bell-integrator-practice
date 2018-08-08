@@ -38,4 +38,11 @@ public interface UserDao {
      * @param user объект с данными о новом пользователе
      */
     void save(User user);
+
+    /**
+     * Удаляет пользователя с указанным идентификатором
+     *
+     * @param id идентификатор пользователя для удаления
+     */
+    void remove(Long id);
 }

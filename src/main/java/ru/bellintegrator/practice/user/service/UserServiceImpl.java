@@ -136,6 +136,18 @@ public class UserServiceImpl implements UserService {
         userDao.save(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void remove(Long id){
+        if (id == null){
+            throw new WrongRequestException("Id is null.");
+        }
+        userDao.remove(id);
+    }
+
     private boolean isFirstNameValid(String firstName){
         return firstName.matches("[A-ZА-Я][a-zа-я]{1,49}");
     }
