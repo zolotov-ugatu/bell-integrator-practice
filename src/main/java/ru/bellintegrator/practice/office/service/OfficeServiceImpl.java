@@ -100,7 +100,7 @@ public class OfficeServiceImpl implements OfficeService {
         validateToSaveView(officeToSave);
         Office office = new Office();
         office.setName(officeToSave.name);
-        organizationDao.getById(officeToSave.orgId).addOffice(office);
+        office.setOrganization(organizationDao.getById(officeToSave.orgId));
         office.setAddress(officeToSave.address);
         office.setPhone(officeToSave.phone);
         office.setActive(officeToSave.isActive);
