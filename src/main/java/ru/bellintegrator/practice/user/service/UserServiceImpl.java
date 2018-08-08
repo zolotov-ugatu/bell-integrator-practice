@@ -125,7 +125,6 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(view.firstName);
         user.setLastName(view.lastName);
         user.setMiddleName(view.middleName);
-        officeDao.getById(view.officeId).addUser(user);
         user.setPosition(view.position);
         user.setPhone(view.phone);
         user.setDoc(docsDao.getByCode(view.docCode));
@@ -133,6 +132,7 @@ public class UserServiceImpl implements UserService {
         user.setDocDate(view.docDate);
         user.setCountry(countriesDao.getByCode(view.citizenshipCode));
         user.setIdentified(view.isIdentified);
+        officeDao.getById(view.officeId).addUser(user);
         userDao.save(user);
     }
 
