@@ -46,7 +46,7 @@ public class DocsDaoImpl implements DocsDao {
      */
     @Override
     public Doc getByCode(Integer code){
-        TypedQuery<Doc> query = em.createQuery("SELECT d FROM Doc d WHERE d.Code = :code", Doc.class);
+        TypedQuery<Doc> query = em.createQuery("SELECT d FROM Doc d WHERE d.code = :code", Doc.class);
         query.setParameter("code", code);
         Doc doc;
         try {
