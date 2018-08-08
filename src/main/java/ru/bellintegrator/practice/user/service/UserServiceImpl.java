@@ -153,7 +153,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean isDocNumberValid(String docNubmer){
-        return docNubmer.matches("[A-Za-zА-Яа-я0-9 -]");
+        return docNubmer.matches("[A-Za-zА-Яа-я0-9 -]{1,20}");
     }
 
     private boolean isPhoneValid(String phone){
