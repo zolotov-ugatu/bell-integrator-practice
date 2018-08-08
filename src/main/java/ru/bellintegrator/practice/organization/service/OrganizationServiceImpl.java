@@ -101,6 +101,18 @@ public class OrganizationServiceImpl implements OrganizationService {
         dao.save(organization);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void remove(Long id){
+        if (id == null) {
+            throw new WrongRequestException("Id is null.");
+        }
+        dao.remove(id);
+    }
+
     private boolean isNameValid(String name){
         return name.matches("[a-zA-Zа-яА-Я\" -]{1,50}");
     }

@@ -86,4 +86,12 @@ public class OrganizationDaoImpl implements OrganizationDao {
     public void save(Organization organization) {
         em.persist(organization);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void remove(Long id){
+        em.remove(getById(id));
+    }
 }

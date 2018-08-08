@@ -38,4 +38,11 @@ public interface OrganizationDao {
      * @param organization объект со сведениями о новой организации
      */
     void save(Organization organization);
+
+    /**
+     * Удаляет организацию с указанным идентификатором
+     *
+     * @param id идентификатор удаляемой организации
+     */
+    void remove(Long id);
 }

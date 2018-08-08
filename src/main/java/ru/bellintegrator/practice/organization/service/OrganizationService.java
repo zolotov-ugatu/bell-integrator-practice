@@ -40,4 +40,11 @@ public interface OrganizationService {
      * @param orgToSave объект, содержащий сведения о новой организации
      */
     void save(OrganizationToSave orgToSave);
+
+    /**
+     * Удаляет организацию с указанным идентификатором
+     *
+     * @param id идентификатор удаляемой организации
+     */
+    void remove(Long id);
 }
