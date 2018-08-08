@@ -38,4 +38,11 @@ public interface OfficeDao {
      * @param office объект со сведениями о новом офисе
      */
     void save(Office office);
+
+    /**
+     * Удаляет офис с указанным идентификатором
+     *
+     * @param id идентификатор офиса для удаления
+     */
+    void remove(Long id);
 }

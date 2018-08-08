@@ -107,6 +107,18 @@ public class OfficeServiceImpl implements OfficeService {
         officeDao.save(office);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void remove(Long id){
+        if (id == null){
+            throw new WrongRequestException("Id is null.");
+        }
+        officeDao.remove(id);
+    }
+
     private boolean isNameValid(String name){
         return name.matches("[a-zA-Zа-яА-Я\" .-]{1,50}");
     }

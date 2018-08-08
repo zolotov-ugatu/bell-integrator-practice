@@ -87,4 +87,12 @@ public class OfficeDaoImpl implements OfficeDao {
     public void save(Office office) {
         em.persist(office);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void remove(Long id){
+        em.remove(getById(id));
+    }
 }

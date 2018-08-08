@@ -41,4 +41,11 @@ public interface OfficeService {
      * @param officeToSave объект, содержащий сведения о новом офисе
      */
     void save(OfficeToSave officeToSave);
+
+    /**
+     * Удаляет офис с указанным идентификатором
+     *
+     * @param id идентификатор офиса для удаления
+     */
+    void remove(Long id);
 }
