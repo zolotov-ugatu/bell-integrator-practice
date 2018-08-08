@@ -186,6 +186,9 @@ public class User {
     }
 
     public Office getOffice() {
+        if (office == null){
+            office = new Office();
+        }
         return office;
     }
 
@@ -210,6 +213,9 @@ public class User {
     }
 
     public Doc getDoc() {
+        if (doc == null){
+            doc = new Doc();
+        }
         return doc;
     }
 
@@ -234,6 +240,9 @@ public class User {
     }
 
     public Country getCountry() {
+        if (country == null){
+            country = new Country();
+        }
         return country;
     }
 

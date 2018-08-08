@@ -15,4 +15,11 @@ public interface DocsDao {
      * @return список, содержащий коды и наименования документов
      */
     List<Doc> list();
+
+    /**
+     * Возвращает документ с указанным кодом
+     *
+     * @return код документа
+     */
+    Doc getByCode(Integer code);
 }

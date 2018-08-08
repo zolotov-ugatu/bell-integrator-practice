@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.ref.countries.model.Country;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -34,5 +35,21 @@ public class CountriesDaoImpl implements CountriesDao {
         TypedQuery<Country> query = em.createQuery("SELECT c FROM Country c", Country.class);
         List<Country> list = query.getResultList();
         return list;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Country getByCode(Integer code){
+        TypedQuery<Country> query = em.createQuery("SELECT c FROM Country c WHERE c.code = :code", Country.class);
+        query.setParameter("code", code);
+        Country country;
+        try {
+            country = query.getSingleResult();
+        } catch (NoResultException e){
+            return null;
+        }
+        return country;
     }
 }

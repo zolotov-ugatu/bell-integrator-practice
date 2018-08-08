@@ -15,4 +15,12 @@ public interface CountriesDao {
      * @return список стран и их кодов
      */
     List<Country> list();
+
+    /**
+     * Возвращает страну с указанным кодом
+     *
+     * @param code код страны
+     * @return страна с указанным кодом
+     */
+    Country getByCode(Integer code);
 }

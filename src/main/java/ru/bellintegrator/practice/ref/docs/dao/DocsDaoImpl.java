@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.ref.docs.model.Doc;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 /**
@@ -37,5 +39,21 @@ public class DocsDaoImpl implements DocsDao {
         TypedQuery<Doc> query = em.createQuery("SELECT d FROM Doc d", Doc.class);
         List<Doc> list = query.getResultList();
         return list;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Doc getByCode(Integer code){
+        TypedQuery<Doc> query = em.createQuery("SELECT d FROM Doc d WHERE d.Code = :code", Doc.class);
+        query.setParameter("code", code);
+        Doc doc;
+        try {
+            doc = query.getSingleResult();
+        } catch (NoResultException e){
+            return null;
+        }
+        return doc;
     }
 }

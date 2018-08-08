@@ -67,7 +67,7 @@ public class UserView {
     /**
      * Код страны, гражданином которой является сотрудник
      */
-    public String citizenshipCode;
+    public Integer citizenshipCode;
 
     /**
      * Прошел ли сотрудник идентификацию
