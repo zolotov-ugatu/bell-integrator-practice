@@ -1,5 +1,11 @@
 package ru.bellintegrator.practice.organization.view;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+/**
+ * Класс представления организации
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrganizationView {
 
     /**

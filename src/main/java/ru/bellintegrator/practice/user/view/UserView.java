@@ -1,7 +1,13 @@
 package ru.bellintegrator.practice.user.view;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Date;
 
+/**
+ * Класс представления пользователя
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserView {
 
     /**
