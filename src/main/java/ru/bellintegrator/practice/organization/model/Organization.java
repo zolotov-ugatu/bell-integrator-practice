@@ -65,7 +65,7 @@ public class Organization {
     /**
      * Номер телефона
      */
-    @Column(name = "phone", length = 20, nullable = false)
+    @Column(name = "phone", length = 20)
     private String phone;
 
     /**

@@ -42,10 +42,10 @@ public class OfficeDaoImpl implements OfficeDao {
         Root<Office> officeRoot = criteriaQuery.from(Office.class);
         Predicate predicate = criteriaBuilder.equal(officeRoot.get("organization").get("id"), filter.getOrganization().getId());
         if (filter.getName() != null){
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(officeRoot.get("name"), filter.getName()));
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(officeRoot.get("name"), "%" + filter.getName() + "%"));
         }
         if (filter.getPhone() != null){
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(officeRoot.get("phone"), filter.getPhone()));
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(officeRoot.get("phone"), "%" + filter.getPhone() + "%"));
         }
         if (filter.getActive() != null){
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(officeRoot.get("isActive"), filter.getActive()));
@@ -61,11 +61,7 @@ public class OfficeDaoImpl implements OfficeDao {
      */
     @Override
     public Office getById(Long officeId) {
-        Office office = em.find(Office.class, officeId);
-        if (office == null){
-            throw new RecordNotFoundException("Record with id = " + officeId + " was not found in Office");
-        }
-        return office;
+        return em.find(Office.class, officeId);
     }
 
     /**

@@ -58,7 +58,7 @@ public class Office {
     /**
      * Номер телефона офиса
      */
-    @Column(name = "phone", length = 20, nullable = false)
+    @Column(name = "phone", length = 20)
     private String phone;
 
     /**

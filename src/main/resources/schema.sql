@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS Organization (
     inn       VARCHAR(10) NOT NULL,
     kpp       VARCHAR(9) NOT NULL,
     address   VARCHAR(100) NOT NULL,
-    phone     VARCHAR(20) NOT NULL,
+    phone     VARCHAR(20),
     is_active BOOLEAN NOT NULL,
     version   INTEGER NOT NULL
 );
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS Office (
     name     VARCHAR(50) NOT NULL,
     org_id    INTEGER NOT NULL,
     address  VARCHAR(100) NOT NULL,
-    phone    VARCHAR(20) NOT NULL,
+    phone    VARCHAR(20),
     is_active BOOLEAN NOT NULL,
     version  INTEGER NOT NULL
 );
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS User (
     middle_name      VARCHAR(50),
     office_id        INTEGER NOT NULL,
     position         VARCHAR(50) NOT NULL,
-    phone            VARCHAR(20) NOT NULL,
+    phone            VARCHAR(20),
     doc_id           INTEGER NOT NULL,
     doc_number       VARCHAR(20) NOT NULL,
     doc_date         DATE NOT NULL,

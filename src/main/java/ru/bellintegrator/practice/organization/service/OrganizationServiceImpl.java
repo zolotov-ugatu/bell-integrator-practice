@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.bellintegrator.practice.exception.RecordNotFoundException;
 import ru.bellintegrator.practice.exception.WrongRequestException;
 import ru.bellintegrator.practice.organization.dao.OrganizationDao;
 import ru.bellintegrator.practice.organization.model.Organization;
@@ -58,6 +59,9 @@ public class OrganizationServiceImpl implements OrganizationService {
             throw new WrongRequestException("Field \"id\" is null.");
         }
         Organization organization = dao.getById(id);
+        if (organization == null){
+            throw new RecordNotFoundException("Record with id = " + id + " was not found in Organization.");
+        }
         OrganizationView organizationView = new OrganizationView();
         organizationView.id = organization.getId();
         organizationView.name = organization.getName();
@@ -110,6 +114,9 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (id == null) {
             throw new WrongRequestException("Id is null.");
         }
+        if (dao.getById(id) == null){
+            throw new RecordNotFoundException("Record with id = " + id + " was not found.");
+        }
         dao.remove(id);
     }
 
@@ -130,7 +137,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     private boolean isAddressValid(String address){
-        return address.matches("[a-zA-Zа-яА-Я0-9 ,.-/]{5,100}");
+        return address.matches("[a-zA-Zа-яА-Я0-9 ,./-]{5,100}");
     }
 
     private boolean isPhoneValid(String phone){
@@ -138,15 +145,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     private void validateFilter(OrganizationListFilter filter){
-        StringBuilder messageBuilder = new StringBuilder("");
-        if (filter.name == null || !isNameValid(filter.name)){
-            messageBuilder.append("Field \"name\" is invalid or null. ");
-        }
-        if ((filter.inn != null) && !isInnValid(filter.inn)){
-            messageBuilder.append("Field \"inn\" is invalid. ");
-        }
-        if (messageBuilder.length() > 0){
-            throw new WrongRequestException(messageBuilder.toString().trim());
+        if (filter.name == null){
+            throw new WrongRequestException("Field \"name\" is null.");
         }
     }
 
@@ -170,14 +170,17 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (view.address == null || !isAddressValid(view.address)){
             messageBuilder.append("Field \"address\" is null or invalid. ");
         }
-        if (view.phone == null || !isPhoneValid(view.phone)){
-            messageBuilder.append("Field \"phone\" is null or invalid. ");
+        if (view.phone != null && !isPhoneValid(view.phone)){
+            messageBuilder.append("Field \"phone\" is invalid. ");
         }
         if (view.isActive == null){
-            messageBuilder.append("Field \"isActive\" is null. ");
+            messageBuilder.append("Field \"isActive\" is null.");
         }
         if (messageBuilder.length() > 0){
             throw new WrongRequestException(messageBuilder.toString().trim());
+        }
+        if (dao.getById(view.id) == null){
+            throw new RecordNotFoundException("Record with id = " + view.id + " was not found on Organization.");
         }
     }
 
@@ -198,8 +201,8 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (view.address == null || !isAddressValid(view.address)){
             messageBuilder.append("Field \"address\" is null or invalid. ");
         }
-        if (view.phone == null || !isPhoneValid(view.phone)){
-            messageBuilder.append("Field \"phone\" is null or invalid. ");
+        if (view.phone != null && !isPhoneValid(view.phone)){
+            messageBuilder.append("Field \"phone\" is invalid. ");
         }
         if (view.isActive == null){
             messageBuilder.append("Field \"isActive\" is null. ");

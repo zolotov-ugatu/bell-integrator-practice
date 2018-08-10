@@ -57,11 +57,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public Organization getById(Long id) {
-        Organization organization = em.find(Organization.class, id);
-        if (organization == null){
-            throw new RecordNotFoundException("Object with id = " + id + " was not found in Organization");
-        }
-        return organization;
+        return em.find(Organization.class, id);
     }
 
     /**

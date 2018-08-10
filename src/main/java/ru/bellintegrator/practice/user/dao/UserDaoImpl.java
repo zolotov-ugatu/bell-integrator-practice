@@ -75,11 +75,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public User getById(Long userId) {
-        User user = em.find(User.class, userId);
-        if (user == null){
-            throw new RecordNotFoundException("Object with id = " + userId + " was not found in User");
-        }
-        return user;
+        return em.find(User.class, userId);
     }
 
     /**

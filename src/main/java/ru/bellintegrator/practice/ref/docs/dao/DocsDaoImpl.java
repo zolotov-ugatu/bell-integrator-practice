@@ -1,8 +1,5 @@
 package ru.bellintegrator.practice.ref.docs.dao;
 
-import org.hibernate.Query;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.ref.docs.model.Doc;
@@ -10,7 +7,6 @@ import ru.bellintegrator.practice.ref.docs.model.Doc;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 /**

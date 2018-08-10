@@ -65,6 +65,9 @@ public class OfficeServiceImpl implements OfficeService {
             throw new WrongRequestException("\"id\" is null.");
         }
         Office office = officeDao.getById(officeId);
+        if (office == null){
+            throw new RecordNotFoundException("Record with id = " + officeId + " was not found in Office.");
+        }
         OfficeView view = new OfficeView();
         view.id = office.getId();
         view.name = office.getName();
@@ -116,6 +119,9 @@ public class OfficeServiceImpl implements OfficeService {
         if (id == null){
             throw new WrongRequestException("Id is null.");
         }
+        if (officeDao.getById(id) == null){
+            throw new RecordNotFoundException("Record with id = " + id + " was not found in Office.");
+        }
         officeDao.remove(id);
     }
 
@@ -124,7 +130,7 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     private boolean isAddressValid(String address){
-        return address.matches("[a-zA-Zа-яА-Я0-9 ,.-/]{5,100}");
+        return address.matches("[a-zA-Zа-яА-Я0-9 ,./-]{5,100}");
     }
 
     private boolean isPhoneValid(String phone){
@@ -132,18 +138,8 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     private void validateFilter(OfficeListFilter filter){
-        StringBuilder messageBuilder = new StringBuilder("");
         if (filter.orgId == null){
-            messageBuilder.append("Field \"orgId\" is null. ");
-        }
-        if (filter.name != null && !isNameValid(filter.name)){
-            messageBuilder.append("Field \"name\" is invalid. ");
-        }
-        if (filter.phone != null && !isPhoneValid(filter.phone)){
-            messageBuilder.append("Field \"phone\" is invalid.");
-        }
-        if (messageBuilder.length() > 0){
-            throw new WrongRequestException(messageBuilder.toString().trim());
+            throw new WrongRequestException("Field \"orgId\" is null.");
         }
     }
 
@@ -158,14 +154,17 @@ public class OfficeServiceImpl implements OfficeService {
         if (view.address == null || !isAddressValid(view.address)){
             messageBuilder.append("Field \"address\" is null or invalid. ");
         }
-        if (view.phone == null || !isPhoneValid(view.phone)){
-            messageBuilder.append("Field \"phone\" is null or invalid. ");
+        if (view.phone != null && !isPhoneValid(view.phone)){
+            messageBuilder.append("Field \"phone\" is invalid. ");
         }
         if (view.isActive == null){
             messageBuilder.append("Field \"isActive\" is null.");
         }
         if (messageBuilder.length() > 0){
             throw new WrongRequestException(messageBuilder.toString().trim());
+        }
+        if (officeDao.getById(view.id) == null){
+            throw new RecordNotFoundException("Record with id = " + view.id + " was not found in Office.");
         }
     }
 
@@ -180,7 +179,7 @@ public class OfficeServiceImpl implements OfficeService {
         if (view.address == null || !isAddressValid(view.address)){
             messageBuilder.append("Field \"address\" is null or invalid. ");
         }
-        if (view.phone == null || !isPhoneValid(view.phone)){
+        if (view.phone != null && !isPhoneValid(view.phone)){
             messageBuilder.append("Field \"phone\" is null or invalid. ");
         }
         if (view.isActive == null){

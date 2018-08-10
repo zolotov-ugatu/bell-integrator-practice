@@ -76,6 +76,9 @@ public class UserServiceImpl implements UserService {
             throw new WrongRequestException("\"id\" is null.");
         }
         User user = userDao.getById(userId);
+        if (user == null){
+            throw new RecordNotFoundException("Record with id = " + userId + " was not found in User.");
+        }
         UserView view = new UserView();
         view.id = user.getId();
         view.firstName = user.getFirstName();
@@ -145,6 +148,9 @@ public class UserServiceImpl implements UserService {
         if (id == null){
             throw new WrongRequestException("Id is null.");
         }
+        if (userDao.getById(id) == null){
+            throw new RecordNotFoundException("Record with id = " + id + " was not found in User.");
+        }
         userDao.remove(id);
     }
 
@@ -195,8 +201,8 @@ public class UserServiceImpl implements UserService {
         if (view.position == null || !isPositionValid(view.position)){
             messageBuilder.append("Field \"position\" is null or invalid. ");
         }
-        if (view.phone == null || !isPhoneValid(view.phone)){
-            messageBuilder.append("Field \"phone\" is null or invalid. ");
+        if (view.phone != null && !isPhoneValid(view.phone)){
+            messageBuilder.append("Field \"phone\" is invalid. ");
         }
         if (view.docCode == null){
             messageBuilder.append("Field \"docCode\" is null . ");
@@ -215,6 +221,9 @@ public class UserServiceImpl implements UserService {
         }
         if (messageBuilder.length() > 0){
             throw new WrongRequestException(messageBuilder.toString().trim());
+        }
+        if (userDao.getById(view.id) == null){
+            messageBuilder.append("Record with id = " + view.id + " was not found in Users. ");
         }
         if (docsDao.getByCode(view.docCode) == null){
             messageBuilder.append("Doc with code = ").append(view.docCode).append(" was not found. ");
@@ -244,8 +253,8 @@ public class UserServiceImpl implements UserService {
         if (view.position == null || !isPositionValid(view.position)){
             messageBuilder.append("Field \"position\" is null or invalid. ");
         }
-        if (view.phone == null || !isPhoneValid(view.phone)){
-            messageBuilder.append("Field \"phone\" is null or invalid. ");
+        if (view.phone != null && !isPhoneValid(view.phone)){
+            messageBuilder.append("Field \"phone\" is invalid. ");
         }
         if (view.docCode == null){
             messageBuilder.append("Field \"docCode\" is null . ");
