@@ -15,8 +15,12 @@ import ru.bellintegrator.practice.Application;
 import ru.bellintegrator.practice.organization.model.Organization;
 import ru.bellintegrator.practice.organization.view.OrganizationListFilter;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 
+/**
+ * Класс, содержащий тесты методов OrganizationDao
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class})
 @WebAppConfiguration(value = "src/main/resources")
@@ -50,6 +54,9 @@ public class OrganizationDaoTest {
         organization2.setActive(false);
     }
 
+    /**
+     * Тест метода list
+     */
     @Test
     public void testList(){
         dao.save(organization1);
@@ -109,10 +116,11 @@ public class OrganizationDaoTest {
         list = dao.list(filter);
         Assert.assertNotNull(list);
         Assert.assertTrue(list.isEmpty());
-        dao.remove(organization1.getId());
-        dao.remove(organization2.getId());
     }
 
+    /**
+     * Тест метода getById
+     */
     @Test
     public void testGetById(){
         dao.save(organization1);
@@ -120,9 +128,11 @@ public class OrganizationDaoTest {
         Organization organization = dao.getById(id);
         Assert.assertNotNull(organization);
         Assert.assertSame(organization1, organization);
-        dao.remove(id);
     }
 
+    /**
+     * Тест метода update
+     */
     @Test
     public void testUpdate(){
         dao.save(organization1);
@@ -136,23 +146,27 @@ public class OrganizationDaoTest {
         Assert.assertEquals(organization2.getAddress(), organization1.getAddress());
         Assert.assertEquals(organization2.getPhone(), organization1.getPhone());
         Assert.assertEquals(organization2.getActive(), organization1.getActive());
-        dao.remove(organization1.getId());
     }
 
+    /**
+     * Тест метода save
+     */
     @Test
     public void testSave(){
         dao.save(organization1);
         Assert.assertNotNull(organization1);
         Assert.assertNotNull(organization1.getId());
         Assert.assertSame(organization1, dao.getById(organization1.getId()));
-        dao.remove(organization1.getId());
     }
 
+    /**
+     * Тест метода remove
+     */
     @Test
     public void testRemove(){
         dao.save(organization1);
         Long id = organization1.getId();
-        dao.remove(organization1.getId());
+        dao.remove(id);
         Assert.assertNull(dao.getById(id));
     }
 }
