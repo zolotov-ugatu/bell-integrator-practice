@@ -58,7 +58,7 @@ public class OrganizationServiceTest {
     }
 
     @Test
-    public void testList(){
+    public void testListMultipleResultByName(){
         service.save(view1);
         service.save(view2);
         filterView.name = "организация";
@@ -67,8 +67,14 @@ public class OrganizationServiceTest {
         Assert.assertEquals(2, list.size());
         Assert.assertTrue(list.get(0).name.contains("организация"));
         Assert.assertTrue(list.get(1).name.contains("организация"));
+    }
+
+    @Test
+    public void testListSingleResultByNameLike(){
+        service.save(view1);
+        service.save(view2);
         filterView.name = "Первая";
-        list = service.list(filterView);
+        List<OrganizationView> list = service.list(filterView);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertEquals(view1.name, list.get(0).name);
@@ -78,8 +84,32 @@ public class OrganizationServiceTest {
         Assert.assertEquals(view1.address, list.get(0).address);
         Assert.assertEquals(view1.phone, list.get(0).phone);
         Assert.assertEquals(view1.isActive, list.get(0).isActive);
+    }
+
+    @Test
+    public void testListSingleResultByNameExact(){
+        service.save(view1);
+        service.save(view2);
+        filterView.name = view2.name;
+        List<OrganizationView> list = service.list(filterView);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(view2.name, list.get(0).name);
+        Assert.assertEquals(view2.fullName, list.get(0).fullName);
+        Assert.assertEquals(view2.inn, list.get(0).inn);
+        Assert.assertEquals(view2.kpp, list.get(0).kpp);
+        Assert.assertEquals(view2.address, list.get(0).address);
+        Assert.assertEquals(view2.phone, list.get(0).phone);
+        Assert.assertEquals(view2.isActive, list.get(0).isActive);
+    }
+
+    @Test
+    public void testListSingleResultByInn(){
+        service.save(view1);
+        service.save(view2);
+        filterView.name = "организация";
         filterView.inn = view1.inn;
-        list = service.list(filterView);
+        List<OrganizationView> list = service.list(filterView);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertEquals(view1.name, list.get(0).name);
@@ -89,8 +119,62 @@ public class OrganizationServiceTest {
         Assert.assertEquals(view1.address, list.get(0).address);
         Assert.assertEquals(view1.phone, list.get(0).phone);
         Assert.assertEquals(view1.isActive, list.get(0).isActive);
-        filterView.isActive = false;
-        list = service.list(filterView);
+    }
+
+    @Test
+    public void testListEmptyResultByInn(){
+        service.save(view1);
+        service.save(view2);
+        filterView.name = view1.name;
+        filterView.inn = view2.inn;
+        List<OrganizationView> list = service.list(filterView);
+        Assert.assertNotNull(list);
+        Assert.assertTrue(list.isEmpty());
+    }
+
+    @Test
+    public void testListResultByIsActiveTrue(){
+        service.save(view1);
+        service.save(view2);
+        filterView.name = "организация";
+        filterView.isActive = view1.isActive;
+        List<OrganizationView> list = service.list(filterView);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(view1.name, list.get(0).name);
+        Assert.assertEquals(view1.fullName, list.get(0).fullName);
+        Assert.assertEquals(view1.inn, list.get(0).inn);
+        Assert.assertEquals(view1.kpp, list.get(0).kpp);
+        Assert.assertEquals(view1.address, list.get(0).address);
+        Assert.assertEquals(view1.phone, list.get(0).phone);
+        Assert.assertEquals(view1.isActive, list.get(0).isActive);
+    }
+
+    @Test
+    public void testListResultByIsActiveFalse(){
+        service.save(view1);
+        service.save(view2);
+        filterView.name = "организация";
+        filterView.isActive = view2.isActive;
+        List<OrganizationView> list = service.list(filterView);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(view2.name, list.get(0).name);
+        Assert.assertEquals(view2.fullName, list.get(0).fullName);
+        Assert.assertEquals(view2.inn, list.get(0).inn);
+        Assert.assertEquals(view2.kpp, list.get(0).kpp);
+        Assert.assertEquals(view2.address, list.get(0).address);
+        Assert.assertEquals(view2.phone, list.get(0).phone);
+        Assert.assertEquals(view2.isActive, list.get(0).isActive);
+    }
+
+    @Test
+    public void testListEmptyResultByIsActive(){
+        service.save(view1);
+        service.save(view2);
+        filterView.name = view1.name;
+        filterView.isActive = view2.isActive;
+        List<OrganizationView> list = service.list(filterView);
         Assert.assertNotNull(list);
         Assert.assertTrue(list.isEmpty());
     }

@@ -55,7 +55,7 @@ public class OrganizationDaoTest {
      * Тест метода list
      */
     @Test
-    public void testList(){
+    public void testListMultipleResultByName(){
         dao.save(organization1);
         dao.save(organization2);
         Organization filter = new Organization();
@@ -65,52 +65,115 @@ public class OrganizationDaoTest {
         Assert.assertEquals(2, list.size());
         Assert.assertTrue(list.contains(organization1));
         Assert.assertTrue(list.contains(organization2));
+    }
+
+    @Test
+    public void testListResultByNameLike(){
+        dao.save(organization1);
+        dao.save(organization2);
+        Organization filter = new Organization();
         filter.setName("Первая");
-        list = dao.list(filter);
+        List<Organization> list = dao.list(filter);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertTrue(list.contains(organization1));
-        filter.setName("Вторая");
-        list = dao.list(filter);
+    }
+
+    @Test
+    public void testListResultByNameExact(){
+        dao.save(organization1);
+        dao.save(organization2);
+        Organization filter = new Organization();
+        filter.setName(organization2.getName());
+        List<Organization> list = dao.list(filter);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertTrue(list.contains(organization2));
+    }
+
+    @Test
+    public void testListEmptyResultByName() {
+        dao.save(organization1);
+        dao.save(organization2);
+        Organization filter = new Organization();
         filter.setName("ПерваяВторая");
-        list = dao.list(filter);
+        List<Organization> list = dao.list(filter);
         Assert.assertNotNull(list);
         Assert.assertTrue(list.isEmpty());
+    }
+
+    @Test
+    public void testListSingleResultByInnFirst() {
+        dao.save(organization1);
+        dao.save(organization2);
+        Organization filter = new Organization();
         filter.setName("организация");
         filter.setInn("1111111111");
-        list = dao.list(filter);
+        List<Organization> list = dao.list(filter);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertTrue(list.contains(organization1));
-        Assert.assertFalse(list.contains(organization2));
+    }
+
+    @Test
+    public void testListSingleResultByInnSecond() {
+        dao.save(organization1);
+        dao.save(organization2);
+        Organization filter = new Organization();
+        filter.setName("организация");
         filter.setInn("2222222222");
-        list = dao.list(filter);
+        List<Organization> list = dao.list(filter);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertTrue(list.contains(organization2));
-        filter.setName("Первая");
-        filter.setInn("2222222222");
-        list = dao.list(filter);
+    }
+
+    @Test
+    public void testListEmptyResultByInn(){
+        dao.save(organization1);
+        dao.save(organization2);
+        Organization filter = new Organization();
+        filter.setName("организация");
+        filter.setInn("3333333333");
+        List<Organization> list = dao.list(filter);
         Assert.assertNotNull(list);
         Assert.assertTrue(list.isEmpty());
+    }
+
+    @Test
+    public void testListResultByIsActiveFirst(){
+        dao.save(organization1);
+        dao.save(organization2);
+        Organization filter = new Organization();
         filter.setName("организация");
-        filter.setInn(null);
-        filter.setActive(true);
-        list = dao.list(filter);
+        filter.setActive(organization1.getActive());
+        List<Organization> list = dao.list(filter);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertTrue(list.contains(organization1));
-        Assert.assertFalse(list.contains(organization2));
-        filter.setActive(false);
-        list = dao.list(filter);
+    }
+
+    @Test
+    public void testListResultByIsActiveSecond(){
+        dao.save(organization1);
+        dao.save(organization2);
+        Organization filter = new Organization();
+        filter.setName("организация");
+        filter.setActive(organization2.getActive());
+        List<Organization> list = dao.list(filter);
         Assert.assertNotNull(list);
         Assert.assertEquals(1, list.size());
         Assert.assertTrue(list.contains(organization2));
-        filter.setName("Первая");
-        list = dao.list(filter);
+    }
+
+    @Test
+    public void testListEmptyResultByIsActive() {
+        dao.save(organization1);
+        dao.save(organization2);
+        Organization filter = new Organization();
+        filter.setName(organization1.getName());
+        filter.setActive(organization2.getActive());
+        List<Organization> list = dao.list(filter);
         Assert.assertNotNull(list);
         Assert.assertTrue(list.isEmpty());
     }
