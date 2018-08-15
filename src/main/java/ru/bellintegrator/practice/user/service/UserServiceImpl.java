@@ -128,7 +128,6 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(view.firstName);
         user.setLastName(view.lastName);
         user.setMiddleName(view.middleName);
-        user.setOffice(officeDao.getById(view.officeId));
         user.setPosition(view.position);
         user.setPhone(view.phone);
         user.setDoc(docsDao.getByCode(view.docCode));
@@ -136,6 +135,7 @@ public class UserServiceImpl implements UserService {
         user.setDocDate(view.docDate);
         user.setCountry(countriesDao.getByCode(view.citizenshipCode));
         user.setIdentified(view.isIdentified);
+        officeDao.getById(view.officeId).addUser(user);
         userDao.save(user);
     }
 
@@ -151,6 +151,7 @@ public class UserServiceImpl implements UserService {
         if (userDao.getById(id) == null){
             throw new RecordNotFoundException("Record with id = " + id + " was not found in User.");
         }
+        officeDao.getById(userDao.getById(id).getOffice().getId()).removeUser(userDao.getById(id));
         userDao.remove(id);
     }
 

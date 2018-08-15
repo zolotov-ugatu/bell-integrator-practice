@@ -103,10 +103,10 @@ public class OfficeServiceImpl implements OfficeService {
         validateToSaveView(officeToSave);
         Office office = new Office();
         office.setName(officeToSave.name);
-        office.setOrganization(organizationDao.getById(officeToSave.orgId));
         office.setAddress(officeToSave.address);
         office.setPhone(officeToSave.phone);
         office.setActive(officeToSave.isActive);
+        organizationDao.getById(officeToSave.orgId).addOffice(office);
         officeDao.save(office);
     }
 
@@ -122,6 +122,7 @@ public class OfficeServiceImpl implements OfficeService {
         if (officeDao.getById(id) == null){
             throw new RecordNotFoundException("Record with id = " + id + " was not found in Office.");
         }
+        organizationDao.getById(officeDao.getById(id).getOrganization().getId()).removeOffice(officeDao.getById(id));
         officeDao.remove(id);
     }
 
