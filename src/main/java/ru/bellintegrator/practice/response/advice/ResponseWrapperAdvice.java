@@ -1,4 +1,4 @@
-package ru.bellintegrator.practice.advice;
+package ru.bellintegrator.practice.response.advice;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.core.MethodParameter;
@@ -7,6 +7,8 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import ru.bellintegrator.practice.response.view.DataResponseView;
+import ru.bellintegrator.practice.response.view.SuccessResponseView;
 
 /**
  * {@inheritDoc}
@@ -28,12 +30,12 @@ public class ResponseWrapperAdvice implements ResponseBodyAdvice {
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         if (methodParameter.getParameterType() != void.class){
-            return new Object(){
-                public Object data = o;
-            };
+            DataResponseView view = new DataResponseView();
+            view.data = o;
+            return view;
         }
-        return new Object(){
-            public String result = "success";
-        };
+        SuccessResponseView view = new SuccessResponseView();
+        view.result = "success";
+        return view;
     }
 }

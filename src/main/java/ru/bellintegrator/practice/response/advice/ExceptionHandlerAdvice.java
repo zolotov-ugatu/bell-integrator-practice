@@ -1,4 +1,4 @@
-package ru.bellintegrator.practice.advice;
+package ru.bellintegrator.practice.response.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.bellintegrator.practice.exception.RecordNotFoundException;
 import ru.bellintegrator.practice.exception.WrongRequestException;
+import ru.bellintegrator.practice.response.view.ErrorResponseView;
 
 /**
  * Содержит обработчики исключений, формирующие соответствующий ответ
@@ -23,9 +24,16 @@ public class ExceptionHandlerAdvice {
      */
     @ExceptionHandler({WrongRequestException.class, RecordNotFoundException.class,
             HttpMessageNotReadableException.class, HttpRequestMethodNotSupportedException.class})
-    public Object exceptionHandler(RuntimeException e){
-        return new Object(){
-            public String error = e.getMessage();
-        };
+    public ErrorResponseView exceptionHandler(RuntimeException e){
+        ErrorResponseView view = new ErrorResponseView();
+        view.error = e.getMessage();
+        return view;
+    }
+
+    @ExceptionHandler({Exception.class})
+    public ErrorResponseView unpredictableExceptionHandler(Exception e){
+        ErrorResponseView view = new ErrorResponseView();
+        view.error = "An unexpected error occurred. Please contact the administrator.";
+        return view;
     }
 }
