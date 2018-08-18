@@ -40,11 +40,6 @@ public class UserToSave {
     public Integer docCode;
 
     /**
-     * Название документа, удостоверяющего личность
-     */
-    public String docName;
-
-    /**
      * Номер документа, удостоверяющего личность
      */
     public String docNumber;
@@ -73,8 +68,7 @@ public class UserToSave {
                 "; position: \"" + position +
                 "\"; phone: \"" + phone +
                 "\"; docCode: " + docCode +
-                "; docName: \"" + docName +
-                "\"; docNumber: \"" + docNumber +
+                "; docNumber: \"" + docNumber +
                 "\"; docDate: " + docDate +
                 "; citizenshipCode: " + citizenshipCode +
                 "\"; isIdentified: " + isIdentified + "} ";
