@@ -186,9 +186,9 @@ public class OfficeServiceTest {
     }
 
     @Test(expected = WrongRequestException.class)
-    public void testUpdateThrowsWrongRequestExceptionIsActiveIsNull(){
+    public void testUpdateThrowsWrongRequestExceptionNameIsNull(){
         when(officeDao.getById(view.id)).thenReturn(new Office());
-        view.isActive = null;
+        view.name = null;
         officeService.update(view);
     }
 

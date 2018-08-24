@@ -218,7 +218,7 @@ public class UserServiceTest {
     }
 
     @Test(expected = RecordNotFoundException.class)
-    public void testUpdateThrowsRecorgNotFoundException(){
+    public void testUpdateThrowsRecordNotFoundException(){
         when(userDao.getById(view.id)).thenReturn(null);
         service.update(view);
     }
@@ -242,8 +242,11 @@ public class UserServiceTest {
     }
 
     @Test(expected = WrongRequestException.class)
-    public void testUpdateThrowsWrongRequestExceptionLastNameIsNull(){
-        view.lastName = null;
+    public void testUpdateThrowsWrongRequestPositionIsNull(){
+        when(userDao.getById(view.id)).thenReturn(new User());
+        when(docsDao.getByCode(view.docCode)).thenReturn(new Doc());
+        when(countriesDao.getByCode(view.citizenshipCode)).thenReturn(new Country());
+        view.position = null;
         service.update(view);
     }
 
@@ -309,7 +312,7 @@ public class UserServiceTest {
 
     @Test(expected = WrongRequestException.class)
     public void testUpdateThrowsWrongRequestExceptionIsIdentifiedIsNull(){
-        view.isIdentified = null;
+        view.firstName = null;
         service.update(view);
     }
 
@@ -427,6 +430,7 @@ public class UserServiceTest {
     @Test
     public void testRemoveSuccess(){
         when(userDao.getById(view.id)).thenReturn(new User());
+        when(officeDao.getById(any(Long.class))).thenReturn(new Office());
         service.remove(view.id);
         verify(userDao, times(1)).remove(view.id);
     }

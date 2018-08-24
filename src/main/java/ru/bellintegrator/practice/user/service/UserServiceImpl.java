@@ -103,17 +103,23 @@ public class UserServiceImpl implements UserService {
     public void update(UserView view) {
         validateView(view);
         User user = new User();
+        User origin = userDao.getById(view.id);
         user.setId(view.id);
         user.setFirstName(view.firstName);
-        user.setLastName(view.lastName);
-        user.setMiddleName(view.middleName);
+        user.setLastName(view.lastName != null ? view.lastName : origin.getLastName());
+        user.setMiddleName(view.middleName != null ? view.middleName : origin.getMiddleName());
         user.setPosition(view.position);
-        user.setPhone(view.phone);
-        user.setDoc(docsDao.getByCode(view.docCode));
-        user.setDocNumber(view.docNumber);
-        user.setDocDate(view.docDate);
-        user.setCountry(countriesDao.getByCode(view.citizenshipCode));
-        user.setIdentified(view.isIdentified);
+        if (view.phone != null){
+            user.setPhone(view.phone == "" ? null : view.phone);
+        }
+        else {
+            user.setPhone(origin.getPhone());
+        }
+        user.setDoc(view.docCode != null ? docsDao.getByCode(view.docCode) : origin.getDoc());
+        user.setDocNumber(view.docNumber != null ? view.docNumber : origin.getDocNumber());
+        user.setDocDate(view.docDate != null ? view.docDate : origin.getDocDate());
+        user.setCountry(view.citizenshipCode != null ? countriesDao.getByCode(view.citizenshipCode) : origin.getCountry());
+        user.setIdentified(view.isIdentified != null ? view.isIdentified : origin.getIdentified());
         userDao.update(user);
     }
 
@@ -193,8 +199,8 @@ public class UserServiceImpl implements UserService {
         if (view.firstName == null || !isFirstNameValid(view.firstName)){
             messageBuilder.append("Field \"firstName\" is null or invalid. ");
         }
-        if (view.lastName == null || !isLastNameValid(view.lastName)){
-            messageBuilder.append("Field \"lastName\" is null or invalid. ");
+        if (view.lastName != null && !isLastNameValid(view.lastName)){
+            messageBuilder.append("Field \"lastName\" is invalid. ");
         }
         if (view.middleName != null && !isMiddleNameValid(view.middleName)){
             messageBuilder.append("Field \"middleName\" is invalid. ");
@@ -205,20 +211,8 @@ public class UserServiceImpl implements UserService {
         if (view.phone != null && !isPhoneValid(view.phone)){
             messageBuilder.append("Field \"phone\" is invalid. ");
         }
-        if (view.docCode == null){
-            messageBuilder.append("Field \"docCode\" is null . ");
-        }
-        if (view.docNumber == null || !isDocNumberValid(view.docNumber)){
-            messageBuilder.append("Field \"docNumber\" is null or invalid. ");
-        }
-        if (view.docDate == null){
-            messageBuilder.append("Field \"docDate\" is null. ");
-        }
-        if (view.citizenshipCode == null){
-            messageBuilder.append("Field \"citizenshipCode\" is null. ");
-        }
-        if (view.isIdentified == null){
-            messageBuilder.append("Field \"isIdentified\" is null.");
+        if (view.docNumber != null && !isDocNumberValid(view.docNumber)){
+            messageBuilder.append("Field \"docNumber\" is invalid. ");
         }
         if (messageBuilder.length() > 0){
             throw new WrongRequestException(messageBuilder.toString().trim());

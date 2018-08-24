@@ -89,8 +89,13 @@ public class OfficeServiceImpl implements OfficeService {
         office.setId(view.id);
         office.setName(view.name);
         office.setAddress(view.address);
-        office.setPhone(view.phone);
-        office.setActive(view.isActive);
+        if (view.phone != null){
+            office.setPhone(view.phone == "" ? null : view.phone);
+        }
+        else {
+            office.setPhone(officeDao.getById(view.id).getPhone());
+        }
+        office.setActive(view.isActive != null ? view.isActive : officeDao.getById(view.id).getActive());
         officeDao.update(office);
     }
 
@@ -157,9 +162,6 @@ public class OfficeServiceImpl implements OfficeService {
         }
         if (view.phone != null && !isPhoneValid(view.phone)){
             messageBuilder.append("Field \"phone\" is invalid. ");
-        }
-        if (view.isActive == null){
-            messageBuilder.append("Field \"isActive\" is null.");
         }
         if (messageBuilder.length() > 0){
             throw new WrongRequestException(messageBuilder.toString().trim());

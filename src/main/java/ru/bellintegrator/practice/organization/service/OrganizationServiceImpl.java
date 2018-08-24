@@ -88,8 +88,13 @@ public class OrganizationServiceImpl implements OrganizationService {
         organization.setInn(view.inn);
         organization.setKpp(view.kpp);
         organization.setAddress(view.address);
-        organization.setPhone(view.phone);
-        organization.setActive(view.isActive);
+        if (view.phone != null){
+            organization.setPhone(view.phone == "" ? null : view.phone);
+        }
+        else {
+            organization.setPhone(dao.getById(view.id).getPhone());
+        }
+        organization.setActive(view.isActive != null ? view.isActive : dao.getById(view.id).getActive());
         dao.update(organization);
     }
 
@@ -172,9 +177,6 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
         if (view.phone != null && !isPhoneValid(view.phone)){
             messageBuilder.append("Field \"phone\" is invalid. ");
-        }
-        if (view.isActive == null){
-            messageBuilder.append("Field \"isActive\" is null.");
         }
         if (messageBuilder.length() > 0){
             throw new WrongRequestException(messageBuilder.toString().trim());
