@@ -92,9 +92,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testListSingleResultByNameExact() throws Exception{
-        mockMvc.perform(post("/api/organization/save")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodySecond));
+        saveSecondOrganization();
         String jsonBodyFilter = "{\"name\": \"Первая организация\"}";
         mockMvc.perform(post("/api/organization/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -112,9 +110,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testListSingleResultByNameLike() throws Exception{
-        mockMvc.perform(post("/api/organization/save")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodySecond));
+        saveSecondOrganization();
         String jsonBodyFilter = "{\"name\": \"Первая\"}";
         mockMvc.perform(post("/api/organization/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -132,9 +128,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testListEmptyResultByName() throws Exception {
-        mockMvc.perform(post("/api/organization/save")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodySecond));
+        saveSecondOrganization();
         String jsonBodyFilter = "{\"name\": \"ПерваяВторая\"}";
         mockMvc.perform(post("/api/organization/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -146,9 +140,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testListResultByInn() throws Exception {
-        mockMvc.perform(post("/api/organization/save")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodySecond));
+        saveSecondOrganization();
         String jsonBodyFilter = "{\"name\": \"организация\", \"inn\": \"1111111111\"}";
         mockMvc.perform(post("/api/organization/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -167,9 +159,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testListEmptyResultByInn() throws Exception {
-        mockMvc.perform(post("/api/organization/save")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodySecond));
+        saveSecondOrganization();
         String jsonBodyFilter = "{\"name\": \"Первая организация\", \"inn\": \"2222222222\"}";
         mockMvc.perform(post("/api/organization/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -181,9 +171,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testListResultByIsActive() throws Exception {
-        mockMvc.perform(post("/api/organization/save")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodySecond));
+        saveSecondOrganization();
         String jsonBodyFilter = "{\"name\": \"организация\", \"isActive\": \"true\"}";
         mockMvc.perform(post("/api/organization/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -202,9 +190,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testListEmptyResultByIsActive() throws Exception {
-        mockMvc.perform(post("/api/organization/save")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodySecond));
+        saveSecondOrganization();
         String jsonBodyFilter = "{\"name\": \"Первая организация\", \"isActive\": \"false\"}";
         mockMvc.perform(post("/api/organization/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -216,9 +202,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testListResultByAllParameters() throws Exception {
-        mockMvc.perform(post("/api/organization/save")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodySecond));
+        saveSecondOrganization();
         String jsonBodyFilter = "{\"name\": \"организация\", \"inn\": \"1111111111\", \"isActive\": \"true\"}";
         mockMvc.perform(post("/api/organization/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -237,9 +221,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testListEmptyResultByAllParameters() throws Exception {
-        mockMvc.perform(post("/api/organization/save")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodySecond));
+        saveSecondOrganization();
         String jsonBodyFilter = "{\"name\": \"организация\", \"inn\": \"1111111111\", \"isActive\": \"false\"}";
         mockMvc.perform(post("/api/organization/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -251,9 +233,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testListErrorNameIsNull() throws Exception {
-        mockMvc.perform(post("/api/organization/save")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodySecond));
+        saveSecondOrganization();
         String jsonBodyFilter = "{\"inn\": \"1111111111\", \"isActive\": \"false\"}";
         mockMvc.perform(post("/api/organization/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -263,12 +243,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testIdSuccess() throws Exception {
-        String jsonBodyFilter = "{\"name\": \"Первая организация\", \"inn\": \"1111111111\", \"isActive\": \"true\"}";
-        String response = mockMvc.perform(post("/api/organization/list")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodyFilter))
-                .andReturn().getResponse().getContentAsString();
-        Long id = JsonPath.parse(response).read("$.data[0].id", Long.class);
+        Long id = getFirstOrganizationId();
         mockMvc.perform(get("/api/organization/" + id))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -284,12 +259,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testIdErrorNotFound() throws Exception {
-        String jsonBodyFilter = "{\"name\": \"Первая организация\", \"inn\": \"1111111111\", \"isActive\": \"true\"}";
-        String response = mockMvc.perform(post("/api/organization/list")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodyFilter))
-                .andReturn().getResponse().getContentAsString();
-        Long id = JsonPath.parse(response).read("$.data[0].id", Long.class);
+        Long id = getFirstOrganizationId();
         mockMvc.perform(get("/api/organization/" + ++id))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.error", notNullValue()));
@@ -297,12 +267,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testUpdateSuccess() throws Exception {
-        String jsonBodyFilter = "{\"name\": \"Первая организация\", \"inn\": \"1111111111\", \"isActive\": \"true\"}";
-        String response = mockMvc.perform(post("/api/organization/list")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodyFilter))
-                .andReturn().getResponse().getContentAsString();
-        Long id = JsonPath.parse(response).read("$.data[0].id", Long.class);
+        Long id = getFirstOrganizationId();
         mockMvc.perform(post("/api/organization/update")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content("{\"id\":\"" + id + "\", " + jsonBodySecond.substring(1)))
@@ -327,12 +292,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testUpdateErrorIdIsNull() throws Exception {
-        String jsonBodyFilter = "{\"name\": \"Первая организация\", \"inn\": \"1111111111\", \"isActive\": \"true\"}";
-        String response = mockMvc.perform(post("/api/organization/list")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodyFilter))
-                .andReturn().getResponse().getContentAsString();
-        Long id = JsonPath.parse(response).read("$.data[0].id", Long.class);
+        Long id = getFirstOrganizationId();
         mockMvc.perform(post("/api/organization/update")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(jsonBodySecond))
@@ -366,12 +326,7 @@ public class OrganizationControllerTest {
 
     @Test
     public void testRemoveSuccess() throws Exception{
-        String jsonBodyFilter = "{\"name\": \"Первая организация\", \"inn\": \"1111111111\", \"isActive\": \"true\"}";
-        String response = mockMvc.perform(post("/api/organization/list")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodyFilter))
-                .andReturn().getResponse().getContentAsString();
-        Long id = JsonPath.parse(response).read("$.data[0].id", Long.class);
+        Long id = getFirstOrganizationId();
         mockMvc.perform(post("/api/organization/remove/" + id))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -382,15 +337,25 @@ public class OrganizationControllerTest {
 
     @Test
     public void testRemoveErrorAlreadyRemoved() throws Exception{
+        Long id = getFirstOrganizationId();
+        mockMvc.perform(post("/api/organization/remove/" + id));
+        mockMvc.perform(post("/api/organization/remove/" + id))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.error", notNullValue()));
+    }
+
+    private void saveSecondOrganization() throws Exception {
+        mockMvc.perform(post("/api/organization/save")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(jsonBodySecond));
+    }
+
+    private Long getFirstOrganizationId() throws Exception {
         String jsonBodyFilter = "{\"name\": \"Первая организация\", \"inn\": \"1111111111\", \"isActive\": \"true\"}";
         String response = mockMvc.perform(post("/api/organization/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(jsonBodyFilter))
                 .andReturn().getResponse().getContentAsString();
-        Long id = JsonPath.parse(response).read("$.data[0].id", Long.class);
-        mockMvc.perform(post("/api/organization/remove/" + id));
-        mockMvc.perform(post("/api/organization/remove/" + id))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.error", notNullValue()));
+        return JsonPath.parse(response).read("$.data[0].id", Long.class);
     }
 }
