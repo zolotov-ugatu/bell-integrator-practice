@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ru.bellintegrator.practice.exception.RecordNotFoundException;
 import ru.bellintegrator.practice.exception.WrongRequestException;
 import ru.bellintegrator.practice.office.dao.OfficeDao;
@@ -110,7 +111,7 @@ public class UserServiceImpl implements UserService {
         user.setMiddleName(view.middleName != null ? view.middleName : origin.getMiddleName());
         user.setPosition(view.position);
         if (view.phone != null){
-            user.setPhone(view.phone == "" ? null : view.phone);
+            user.setPhone(StringUtils.isEmpty(view.phone) ? null : view.phone);
         }
         else {
             user.setPhone(origin.getPhone());
