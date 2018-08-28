@@ -360,13 +360,13 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.error", notNullValue()));
     }
 
-    public void saveSecondUser() throws Exception {
+    private void saveSecondUser() throws Exception {
         mockMvc.perform(post("/api/user/save")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(jsonBodySecond));
     }
 
-    public Long getFirstUserId() throws Exception {
+    private Long getFirstUserId() throws Exception {
         String jsonBodyFilter = "{\"officeId\": \"" + officeId + "\"}";
         String response = mockMvc.perform(post("/api/user/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
