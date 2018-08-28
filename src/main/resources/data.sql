@@ -35,16 +35,3 @@ INSERT INTO User (id, first_name, last_name, middle_name, office_id, position, p
 (11, 'Кай', 'Бертхольц', 'Сергеевич', 6, 'Заведующий кафедрой', '+7 913 133-31-31', 1, '8003 131313', '2011-12-13', 1, TRUE, 0),
 (12, 'Герда', 'Бертхольц', 'Сергеевна', 6, 'Профессор', '+7 942 424-54-24', 1, '8002 424242', '2012-04-22', 1, TRUE, 0);
 
-/* Data below is for old project */
-
-INSERT INTO House (id, version, address) VALUES (1, 0, 'ул.Цюрупы, 16');
-
-INSERT INTO House (id, version, address) VALUES (2, 0, 'ул.Лунина, 7');
-
-INSERT INTO Person (id, version, first_name, age) VALUES (1, 0, 'Пётр', 20);
-
-INSERT INTO Person (id, version, first_name, age) VALUES (2, 0, 'John', 25);
-
-INSERT INTO Person_House (person_id, house_id) VALUES (1, 1);
-
-INSERT INTO Person_House (person_id, house_id) VALUES (1, 2);
