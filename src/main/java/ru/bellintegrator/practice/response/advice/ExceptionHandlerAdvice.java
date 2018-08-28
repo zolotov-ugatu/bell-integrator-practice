@@ -24,6 +24,7 @@ public class ExceptionHandlerAdvice {
      */
     @ExceptionHandler({WrongRequestException.class, RecordNotFoundException.class,
             HttpMessageNotReadableException.class, HttpRequestMethodNotSupportedException.class})
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorResponseView exceptionHandler(RuntimeException e){
         ErrorResponseView view = new ErrorResponseView();
         view.error = e.getMessage();
@@ -31,6 +32,7 @@ public class ExceptionHandlerAdvice {
     }
 
     @ExceptionHandler({Exception.class})
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponseView unpredictableExceptionHandler(Exception e){
         ErrorResponseView view = new ErrorResponseView();
         view.error = "An unexpected error occurred. Please contact the administrator.";
