@@ -117,9 +117,7 @@ public class UserControllerTest {
 
     @Test
     public void testListMultipleResultByOfficeId() throws Exception {
-        mockMvc.perform(post("/api/user/save")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodySecond));
+        saveSecondUser();
         String jsonBodyFilter = "{\"officeId\": \"" + officeId + "\"}";
         mockMvc.perform(post("/api/user/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -142,9 +140,7 @@ public class UserControllerTest {
 
     @Test
     public void testListSingleResultByNameLike() throws Exception {
-        mockMvc.perform(post("/api/user/save")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodySecond));
+        saveSecondUser();
         String jsonBodyFilter = "{\"officeId\": \"" + officeId + "\", \"lastName\": \"Иван\"}";
         mockMvc.perform(post("/api/user/list")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -186,9 +182,7 @@ public class UserControllerTest {
 
     @Test
     public void testListSingleResultByAllParameters() throws Exception {
-        mockMvc.perform(post("/api/user/save")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodySecond));
+        saveSecondUser();
         String jsonBodyFilter = "{\"officeId\": \"" + officeId + "\", " +
                 "\"firstName\": \"Иван\", " +
                 "\"lastName\": \"Иванов\", " +
@@ -235,11 +229,7 @@ public class UserControllerTest {
 
     @Test
     public void testGetByIdSuccess() throws Exception {
-        String jsonBodyFilter = "{\"officeId\": \"" + officeId + "\"}";
-        String response = mockMvc.perform(post("/api/user/list")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodyFilter)).andReturn().getResponse().getContentAsString();
-        Long id = JsonPath.parse(response).read("$.data[0].id", Long.class);
+        Long id = getFirstUserId();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
         mockMvc.perform(get("/api/user/" + id))
@@ -260,11 +250,7 @@ public class UserControllerTest {
 
     @Test
     public void testGetByIdErrorNotFound() throws Exception {
-        String jsonBodyFilter = "{\"officeId\": \"" + officeId + "\"}";
-        String response = mockMvc.perform(post("/api/user/list")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodyFilter)).andReturn().getResponse().getContentAsString();
-        Long id = JsonPath.parse(response).read("$.data[0].id", Long.class);
+        Long id = getFirstUserId();
         mockMvc.perform(get("/api/user/" + (id + 1)))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.error", notNullValue()));
@@ -272,11 +258,7 @@ public class UserControllerTest {
 
     @Test
     public void testUpdateSuccess() throws Exception {
-        String jsonBodyFilter = "{\"officeId\": \"" + officeId + "\"}";
-        String response = mockMvc.perform(post("/api/user/list")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodyFilter)).andReturn().getResponse().getContentAsString();
-        Long id = JsonPath.parse(response).read("$.data[0].id", Long.class);
+        Long id = getFirstUserId();
         mockMvc.perform(post("/api/user/update")
             .contentType(MediaType.APPLICATION_JSON_UTF8)
             .content("{\"id\": \"" + id + "\", " + jsonBodySecond.substring(1)))
@@ -312,11 +294,7 @@ public class UserControllerTest {
 
     @Test
     public void testUpdateErrorNotFound() throws Exception {
-        String jsonBodyFilter = "{\"officeId\": \"" + officeId + "\"}";
-        String response = mockMvc.perform(post("/api/user/list")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonBodyFilter)).andReturn().getResponse().getContentAsString();
-        Long id = JsonPath.parse(response).read("$.data[0].id", Long.class);
+        Long id = getFirstUserId();
         mockMvc.perform(post("/api/user/update")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content("{\"id\": \"" + (id + 1) + "\", " + jsonBodySecond.substring(1)))
@@ -366,11 +344,7 @@ public class UserControllerTest {
 
     @Test
     public void testRemoveSuccess() throws Exception {
-        String response = mockMvc.perform(post("/api/user/list")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content("{\"officeId\": \"" + officeId + "\"}"))
-                .andReturn().getResponse().getContentAsString();
-        Long id = JsonPath.parse(response).read("$.data[0].id", Long.class);
+        Long id = getFirstUserId();
         mockMvc.perform(post("/api/user/remove/" + id))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -380,13 +354,23 @@ public class UserControllerTest {
 
     @Test
     public void testRemoveErrorNotFound() throws Exception {
-        String response = mockMvc.perform(post("/api/user/list")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content("{\"officeId\": \"" + officeId + "\"}"))
-                .andReturn().getResponse().getContentAsString();
-        Long id = JsonPath.parse(response).read("$.data[0].id", Long.class);
+        Long id = getFirstUserId();
         mockMvc.perform(post("/api/user/remove/" + (id + 1)))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.error", notNullValue()));
+    }
+
+    public void saveSecondUser() throws Exception {
+        mockMvc.perform(post("/api/user/save")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(jsonBodySecond));
+    }
+
+    public Long getFirstUserId() throws Exception {
+        String jsonBodyFilter = "{\"officeId\": \"" + officeId + "\"}";
+        String response = mockMvc.perform(post("/api/user/list")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(jsonBodyFilter)).andReturn().getResponse().getContentAsString();
+        return JsonPath.parse(response).read("$.data[0].id", Long.class);
     }
 }

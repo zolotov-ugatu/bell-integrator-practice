@@ -41,6 +41,7 @@ public class OrganizationDaoTest {
         organization1.setPhone("+7 111 111-11-11");
         organization1.setAddress("Россия, г. Москва, ул. Ленина, д. 1");
         organization1.setActive(true);
+        dao.save(organization1);
         organization2 = new Organization();
         organization2.setName("Вторая организация");
         organization2.setFullName("Полное имя второй организации");
@@ -56,7 +57,6 @@ public class OrganizationDaoTest {
      */
     @Test
     public void testListMultipleResultByName(){
-        dao.save(organization1);
         dao.save(organization2);
         Organization filter = new Organization();
         filter.setName("организация");
@@ -69,7 +69,6 @@ public class OrganizationDaoTest {
 
     @Test
     public void testListResultByNameLike(){
-        dao.save(organization1);
         dao.save(organization2);
         Organization filter = new Organization();
         filter.setName("Первая");
@@ -81,7 +80,6 @@ public class OrganizationDaoTest {
 
     @Test
     public void testListResultByNameExact(){
-        dao.save(organization1);
         dao.save(organization2);
         Organization filter = new Organization();
         filter.setName(organization2.getName());
@@ -93,7 +91,6 @@ public class OrganizationDaoTest {
 
     @Test
     public void testListEmptyResultByName() {
-        dao.save(organization1);
         dao.save(organization2);
         Organization filter = new Organization();
         filter.setName("ПерваяВторая");
@@ -104,7 +101,6 @@ public class OrganizationDaoTest {
 
     @Test
     public void testListSingleResultByInnFirst() {
-        dao.save(organization1);
         dao.save(organization2);
         Organization filter = new Organization();
         filter.setName("организация");
@@ -117,7 +113,6 @@ public class OrganizationDaoTest {
 
     @Test
     public void testListSingleResultByInnSecond() {
-        dao.save(organization1);
         dao.save(organization2);
         Organization filter = new Organization();
         filter.setName("организация");
@@ -130,7 +125,6 @@ public class OrganizationDaoTest {
 
     @Test
     public void testListEmptyResultByInn(){
-        dao.save(organization1);
         dao.save(organization2);
         Organization filter = new Organization();
         filter.setName("организация");
@@ -142,7 +136,6 @@ public class OrganizationDaoTest {
 
     @Test
     public void testListResultByIsActiveFirst(){
-        dao.save(organization1);
         dao.save(organization2);
         Organization filter = new Organization();
         filter.setName("организация");
@@ -155,7 +148,6 @@ public class OrganizationDaoTest {
 
     @Test
     public void testListResultByIsActiveSecond(){
-        dao.save(organization1);
         dao.save(organization2);
         Organization filter = new Organization();
         filter.setName("организация");
@@ -168,7 +160,6 @@ public class OrganizationDaoTest {
 
     @Test
     public void testListEmptyResultByIsActive() {
-        dao.save(organization1);
         dao.save(organization2);
         Organization filter = new Organization();
         filter.setName(organization1.getName());
@@ -183,7 +174,6 @@ public class OrganizationDaoTest {
      */
     @Test
     public void testGetById(){
-        dao.save(organization1);
         Long id = organization1.getId();
         Organization organization = dao.getById(id);
         Assert.assertNotNull(organization);
@@ -195,7 +185,6 @@ public class OrganizationDaoTest {
      */
     @Test
     public void testUpdate(){
-        dao.save(organization1);
         organization2.setId(organization1.getId());
         dao.update(organization2);
         Assert.assertNotNull(organization1);
@@ -213,10 +202,10 @@ public class OrganizationDaoTest {
      */
     @Test
     public void testSave(){
-        dao.save(organization1);
-        Assert.assertNotNull(organization1);
-        Assert.assertNotNull(organization1.getId());
-        Assert.assertSame(organization1, dao.getById(organization1.getId()));
+        dao.save(organization2);
+        Assert.assertNotNull(organization2);
+        Assert.assertNotNull(organization2.getId());
+        Assert.assertSame(organization2, dao.getById(organization2.getId()));
     }
 
     /**
@@ -224,7 +213,6 @@ public class OrganizationDaoTest {
      */
     @Test
     public void testRemove(){
-        dao.save(organization1);
         Long id = organization1.getId();
         dao.remove(id);
         Assert.assertNull(dao.getById(id));
