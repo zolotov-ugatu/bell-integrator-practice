@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ru.bellintegrator.practice.exception.RecordNotFoundException;
 import ru.bellintegrator.practice.exception.WrongRequestException;
 import ru.bellintegrator.practice.organization.dao.OrganizationDao;
@@ -89,7 +90,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         organization.setKpp(view.kpp);
         organization.setAddress(view.address);
         if (view.phone != null){
-            organization.setPhone(view.phone == "" ? null : view.phone);
+            organization.setPhone(StringUtils.isEmpty(view.phone) ? null : view.phone);
         }
         else {
             organization.setPhone(dao.getById(view.id).getPhone());

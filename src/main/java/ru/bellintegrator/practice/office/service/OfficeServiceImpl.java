@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ru.bellintegrator.practice.exception.RecordNotFoundException;
 import ru.bellintegrator.practice.exception.WrongRequestException;
 import ru.bellintegrator.practice.office.dao.OfficeDao;
@@ -90,7 +91,7 @@ public class OfficeServiceImpl implements OfficeService {
         office.setName(view.name);
         office.setAddress(view.address);
         if (view.phone != null){
-            office.setPhone(view.phone == "" ? null : view.phone);
+            office.setPhone(StringUtils.isEmpty(view.phone) ? null : view.phone);
         }
         else {
             office.setPhone(officeDao.getById(view.id).getPhone());
